@@ -44,7 +44,8 @@ document.addEventListener('keydown', function (e) {
     }
     else if (e.key === "Backspace") {
         num = num.slice(0, -1);
-        disp.textContent = num;
+        if(num === ""){ disp.textContent = '0'}
+        else disp.textContent = num;
     }
 });
 
