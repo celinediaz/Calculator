@@ -46,3 +46,8 @@ body{
     box-shadow: 1px 1px 8px #797777;
 }
 
+@media (max-width: 800px) {
+    .item{
+        padding: 1rem 0.8rem;
+    }
+  }
