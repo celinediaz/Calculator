@@ -1,6 +1,12 @@
+@font-face {
+    font-family: Segment7Standard;
+    src: url(Segment7/Segment7Standard.otf);
+}
+
 body{
     background-color: #0084a5;
 }
+
 .container{
     display: flex;
     justify-content:center;
@@ -50,4 +56,4 @@ body{
     .item{
         padding: 1rem 0.8rem;
     }
-  }
+}
