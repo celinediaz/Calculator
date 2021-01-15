@@ -5,12 +5,48 @@ let a;
 let reset = false;
 let symb = false;
 
+function equals() {
+    solve();
+    num = a;
+    oper = -1;
+    reset = true;
+    symb = false;
+}
+
 function refresh() {
     oper = -1;
     a = 0;
     num = "";
     disp.textContent = a;
 }
+document.addEventListener('keydown', function (e) {
+    if (e.key >= 0 && e.key <= 9) {
+        numClicked(e.key);
+    }
+    else if (e.key === '+') {
+        solve();
+        oper = 0;
+    }
+    else if (e.key === '-') {
+        solve();
+        oper = 1;
+    }
+    else if (e.key === '*') {
+        solve();
+        oper = 2;
+    }
+    else if (e.key === '/') {
+        solve();
+        oper = 3;
+    }
+    else if (e.key === '=' || e.key === "Enter") {
+        equals();
+    }
+    else if (e.key === "Backspace") {
+        num = num.slice(0, -1);
+        disp.textContent = num;
+    }
+});
 
 function sum(a, b) {
     return a + b;
@@ -26,7 +62,7 @@ function div(a, b) {
         return a / b;
     } else if (b === 0) {
         refresh();
-        disp.textContent = "CANT DIVIDE BY THAT";
+        disp.textContent = "YOU CANT DIVIDE BY 0";
     }
 }
 function operator(a, b, op) {
@@ -70,11 +106,7 @@ document.querySelector(".pm").onclick = function () {
     disp.textContent = num;
 };
 document.querySelector(".equals").onclick = function () {
-    solve();
-    num = a;
-    oper = -1;
-    reset = true;
-    symb = false;
+    equals();
 };
 
 document.querySelector(".del").onclick = function () {
