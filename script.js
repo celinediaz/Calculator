@@ -3,138 +3,115 @@ let num = "";
 let oper = -1;
 let a;
 let reset = false;
+let symb = false;
+
+function refresh() {
+    oper = -1;
+    a = 0;
+    num = "";
+    disp.textContent = a;
+}
 
 function sum(a, b) {
-  return a + b;
+    return a + b;
 }
 function res(a, b) {
-  return a - b;
+    return a - b;
 }
 function mul(a, b) {
-  return a * b;
+    return a * b;
 }
 function div(a, b) {
-  if (b != 0) {
-    return a / b;
-  } else {
-    return false;
-  }
+    if (b != 0) {
+        return a / b;
+    } else if (b === 0) {
+        refresh();
+        disp.textContent = "CANT DIVIDE BY THAT";
+    }
 }
 function operator(a, b, op) {
-  switch (op) {
-    case 0:
-      return sum(a, b);
-    case 1:
-      return res(a, b);
-    case 2:
-      return mul(a, b);
-    case 3:
-      return div(a, b);
-  }
+    switch (op) {
+        case 0:
+            return sum(a, b);
+        case 1:
+            return res(a, b);
+        case 2:
+            return mul(a, b);
+        case 3:
+            return div(a, b);
+    }
 }
 
-document.querySelector(".i1").onclick = function () {
-  numClicked("1");
-};
-document.querySelector(".i2").onclick = function () {
-  numClicked("2");
-};
-document.querySelector(".i3").onclick = function () {
-  numClicked("3");
-};
-document.querySelector(".i4").onclick = function () {
-  numClicked("4");
-};
-document.querySelector(".i5").onclick = function () {
-  numClicked("5");
-};
-document.querySelector(".i6").onclick = function () {
-  numClicked("6");
-};
-document.querySelector(".i7").onclick = function () {
-  numClicked("7");
-};
-document.querySelector(".i8").onclick = function () {
-  numClicked("8");
-};
-document.querySelector(".i9").onclick = function () {
-  numClicked("9");
-};
-document.querySelector(".i0").onclick = function () {
-  if (num != 0) {
-    numClicked("0");
-  }
-};
+for (let i = 0; i < 10; i++) {
+    document.querySelector(`.i${i}`).onclick = function () {
+        numClicked(`${i}`);
+    };
+}
+
 document.querySelector(".dot").onclick = function () {
-  if (reset === true) {
-    reset = false;
-  }
-  if (!num.includes(".")) {
-    num += ".";
-    disp.textContent = num;
-  }
+    if (reset === true) {
+        reset = false;
+    }
+    if (!num.includes(".")) {
+        num += ".";
+        disp.textContent = num;
+    }
 };
-document.querySelector(".sum").onclick = function () {
-  solve();
-  oper = 0;
-};
-document.querySelector(".res").onclick = function () {
-  solve();
-  oper = 1;
-};
-document.querySelector(".mul").onclick = function () {
-  solve();
-  oper = 2;
-};
-document.querySelector(".divi").onclick = function () {
-  solve();
-  oper = 3;
-};
+
+for (let i = 0; i < 4; i++) {
+    document.querySelector(`.op${i}`).onclick = function () {
+        solve();
+        oper = i;
+    };
+}
+
 document.querySelector(".pm").onclick = function () {
-  num = (0 - +num).toString();
-  disp.textContent = num;
+    num = (0 - +num).toString();
+    disp.textContent = num;
 };
 document.querySelector(".equals").onclick = function () {
-  solve();
-  num = a;
-  oper = -1;
-  reset = true;
-};
-document.querySelector(".c").onclick = function () {
-  oper = -1;
-  a = 0;
-  num = "";
-  disp.textContent = a;
+    solve();
+    num = a;
+    oper = -1;
+    reset = true;
+    symb = false;
 };
 
 document.querySelector(".del").onclick = function () {
-  num = '';
-  disp.textContent = 0;
+    num = "";
+    disp.textContent = 0;
 };
 
 document.querySelector(".perc").onclick = function () {
-  num = +num / 100;
-  disp.textContent = num;
+    num = +num / 100;
+    disp.textContent = num;
 };
 
 function solve() {
-  if (oper >= 0) {
-    a = operator(+a, +num, oper);
-    if (a) {
-      a = parseFloat(a.toFixed(3));
-      disp.textContent = a;
-    } else disp.textContent = "YOU CAN'T DIVIDE BY 0";
-  } else {
-    a = +num;
-  }
-  num = "";
+    if (symb === true) {
+        return;
+    }
+    //if this is not the first calculation.
+    if (oper >= 0) {
+        a = operator(+a, +num, oper);
+        if (a) {
+            a = parseFloat(a.toFixed(3));
+            disp.textContent = a;
+        }
+    }
+    else {
+        a = +num;
+    }
+    num = "";
+    symb = true;
 }
 
 function numClicked(n) {
-  if (reset === true) {
-    num = "";
-    reset = false;
-  }
-  num += n;
-  disp.textContent = num;
+    if (reset === true) {
+        num = "";
+        reset = false;
+    }
+    symb = false;
+    num += n;
+    disp.textContent = parseFloat(num);
 }
